@@ -62,6 +62,5 @@ Metrics computed and logged
 
 
 <div align="center">
-<div align="https://github.com/user-attachments/assets/95e1a1b2-df42-42f2-bf37-bc652443c0fd">
+  <img src="https://github.com/user-attachments/assets/95e1a1b2-df42-42f2-bf37-bc652443c0fd" width="600">
 </div>
-
