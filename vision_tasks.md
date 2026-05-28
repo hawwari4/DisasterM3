@@ -14,9 +14,9 @@ Computer vision is the field of AI that enables machines to interpret and unders
 
 **Output:** A category label (e.g., "flooded area", "fire", "collapsed building")
 
-**Example:** Given a satellite image, the model outputs: `damaged` or `not damaged`
+**Example:** Given a satellite image, the model outputs: `damaged` or `not damaged.`
 
-**Key characteristic:** The model does not care *where* in the image the object is — only *what* is present.
+**Key characteristic:** The model does not care *where* in the image the object is only *what* is present.
 
 ---
 
@@ -40,7 +40,7 @@ Computer vision is the field of AI that enables machines to interpret and unders
 
 **Question it answers:** *"What category does each pixel belong to?"*
 
-**Output:** A pixel-level mask — each pixel is assigned a class.
+**Output:** A pixel-level mask, each pixel is assigned a class.
 
 There are two main types:
 - **Semantic segmentation:** Every pixel of the same class gets the same label (e.g., all water pixels = blue, all road pixels = gray)
@@ -48,7 +48,7 @@ There are two main types:
 
 **Example:** Given a flood satellite image, the model colors every flooded pixel in blue, every road pixel in gray, and every building pixel in red.
 
-**Key characteristic:** Most detailed of the three tasks — provides shape-level information for every object.
+**Key characteristic:** Most detailed of the three tasks provides shape-level information for every object.
 
 ---
 
@@ -77,14 +77,14 @@ These tasks become especially powerful when applied to remote sensing data (sate
 - Enables rapid damage mapping over large geographic areas
 
 ### Segmentation in Disaster Context
-- Mapping the **exact flood extent** at pixel level from satellite imagery
+- Mapping the **exact flood extent** at the pixel level from satellite imagery
 - Delineating **burn scars** after wildfires
 - Identifying **damaged vs intact roof structures** for insurance or aid assessment
 - Used in: **EarthVQA** and related benchmarks for fine-grained scene understanding
 
 ### Why These Tasks Matter for Disaster Response
 Remote sensing imagery can cover thousands of square kilometers. Automating visual analysis through these tasks allows humanitarian organizations to:
-- Prioritize rescue operations to the most affected areas
+- Prioritize rescue operations in the most affected areas
 - Estimate the scale of damage without sending personnel into dangerous zones
 - Track disaster progression over time (temporal monitoring)
 - Support resource allocation for recovery efforts
