@@ -59,3 +59,9 @@ Metrics computed and logged
 - **Open-ended answers** are hard to score automatically — paraphrases score low on BLEU despite being correct
 - **Class imbalance** — disaster datasets have far more "undamaged" than "destroyed" samples; accuracy alone is misleading
 - **Cross-dataset generalization** — models trained on one disaster type often underperform on others
+
+
+<div align="center">
+<div align="https://github.com/user-attachments/assets/95e1a1b2-df42-42f2-bf37-bc652443c0fd">
+</div>
+
