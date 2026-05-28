@@ -52,7 +52,7 @@ There are two main types:
 
 ---
 
-![alt text](<how to make - visual selection (1).png>)
+![alt text](visual_selection.png)
 
 ## Application to Natural Disasters
 
