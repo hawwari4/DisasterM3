@@ -52,15 +52,7 @@ There are two main types:
 
 ---
 
-## Summary Comparison
-
-| Task | Output | Answers | Detail Level |
-|---|---|---|---|
-| Classification | Single label | "What?" | Low |
-| Detection | Bounding boxes + labels | "What & where?" | Medium |
-| Segmentation | Pixel-level masks | "What, where & shape?" | High |
-
----
+![alt text](<how to make - visual selection (1).png>)
 
 ## Application to Natural Disasters
 
