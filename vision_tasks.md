@@ -52,5 +52,6 @@ There are two main types:
 
 ---
 
-![alt text](visual_selection.png)
-
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/55c47778-adb1-4070-9c05-692756e4532f">
+</div>
