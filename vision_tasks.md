@@ -53,5 +53,5 @@ There are two main types:
 ---
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/55c47778-adb1-4070-9c05-692756e4532f">
+  <img src="https://github.com/user-attachments/assets/961096fe-f6f8-4791-b348-ee7e562a7ec2">
 </div>
