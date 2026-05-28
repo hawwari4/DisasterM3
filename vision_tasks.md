@@ -54,29 +54,3 @@ There are two main types:
 
 ![alt text](visual_selection.png)
 
-## Application to Natural Disasters
-
-These tasks become especially powerful when applied to remote sensing data (satellite/aerial imagery) of disaster zones:
-
-### Classification in Disaster Context
-- Classifying satellite tiles as **damaged** vs **undamaged** after an earthquake
-- Categorizing disaster type: flood, wildfire, hurricane damage
-- Used in: **DisasterM3** benchmark for damage level classification
-
-### Detection in Disaster Context
-- Detecting and localizing **collapsed buildings** in post-earthquake imagery
-- Identifying **displaced vehicles**, **debris fields**, or **flooded roads**
-- Enables rapid damage mapping over large geographic areas
-
-### Segmentation in Disaster Context
-- Mapping the **exact flood extent** at the pixel level from satellite imagery
-- Delineating **burn scars** after wildfires
-- Identifying **damaged vs intact roof structures** for insurance or aid assessment
-- Used in: **EarthVQA** and related benchmarks for fine-grained scene understanding
-
-### Why These Tasks Matter for Disaster Response
-Remote sensing imagery can cover thousands of square kilometers. Automating visual analysis through these tasks allows humanitarian organizations to:
-- Prioritize rescue operations in the most affected areas
-- Estimate the scale of damage without sending personnel into dangerous zones
-- Track disaster progression over time (temporal monitoring)
-- Support resource allocation for recovery efforts
