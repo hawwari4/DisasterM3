@@ -4,7 +4,7 @@
 
 When disasters like earthquakes, floods, or wildfires occur, rescue teams need to quickly understand what is damaged, where, and how badly. Satellites can capture images of affected areas almost immediately, but analyzing thousands of images manually is slow and impractical during an emergency.
 
-Vision-Language Models (VLMs), AI models that can look at images and answer questions, could help automate this analysis. However, these models are mostly trained on everyday photos like cities, animals, and landscapes. As a result, when shown disaster satellite imagery, they struggle to understand concepts like "debris-covered road" or "partially destroyed building," and have difficulty comparing before and after images to assess damage.
+AI models that can look at images and answer questions, called Vision-Language Models (VLMs), could help automate this analysis. However, these models are mostly trained on everyday photos like cities, animals, and landscapes. As a result, when shown disaster satellite imagery, they struggle to understand concepts like "debris-covered road" or "partially destroyed building," and have difficulty comparing before and after images to assess damage.
 
 Unfortunately, existing disaster datasets were too limited to fix this problem. FloodNet, the only available one, covered a single hurricane with simple yes/no questions. In short, no dataset existed that covered multiple disaster types, multiple sensor types, or complex reasoning tasks like counting damaged buildings or writing recovery reports.
 
