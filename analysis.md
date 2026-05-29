@@ -4,16 +4,17 @@
 
 ```
 DisasterM3/
-├── disaster_m3/
-│   ├── pyscripts/
-│   │   ├── run_vllm.py        # Main inference script
-│   │   └── models.py          # Model configurations
-│   └── eval/                  # Evaluation scripts
-├── data/                      # Dataset JSON files + images
-├── results/                   # Output predictions
-└── README.md
+├── README.md
+├── __init__.py
+├── models/
+│   └── __init__.py
+├── pyscripts/
+│   ├── __init__.py
+│   └── run_vllm.py
+├── analysis.md
+├── evaluation_methodology.md
+└── vision_tasks.md
 ```
-
 ---
 
 ## 2. Code Organization Analysis
