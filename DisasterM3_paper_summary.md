@@ -4,49 +4,30 @@
 
 When disasters like earthquakes, floods, or wildfires occur, rescue teams need to quickly understand what is damaged, where, and how badly. Satellites can capture images of affected areas almost immediately, but analyzing thousands of images manually is slow and impractical during an emergency.
 
-AI models that can look at images and answer questions, called Vision-Language Models (VLMs), could help automate this analysis. However, these models are mostly trained on everyday photos like cities, animals, and landscapes. When shown disaster satellite imagery, they struggle. They don't understand disaster-specific concepts like "debris-covered road" or "partially destroyed building," and they have difficulty comparing before and after images to assess damage.
+Vision-Language Models (VLMs), AI models that can look at images and answer questions, could help automate this analysis. However, these models are mostly trained on everyday photos like cities, animals, and landscapes. As a result, when shown disaster satellite imagery, they struggle to understand concepts like "debris-covered road" or "partially destroyed building," and have difficulty comparing before and after images to assess damage.
 
-Existing disaster datasets were too limited to fix this problem. The only available one (FloodNet) covered a single hurricane with simple yes/no questions. No dataset existed that covered multiple disaster types, multiple sensor types, or complex reasoning tasks like counting damaged buildings or writing recovery reports.
+Unfortunately, existing disaster datasets were too limited to fix this problem. FloodNet, the only available one, covered a single hurricane with simple yes/no questions. In short, no dataset existed that covered multiple disaster types, multiple sensor types, or complex reasoning tasks like counting damaged buildings or writing recovery reports.
 
 ---
 
 ## Solution
 
-The authors built DisasterM3, a large-scale remote sensing dataset designed specifically for disaster analysis. It contains:
+To address this gap, the authors created DisasterM3, a large-scale remote sensing dataset designed specifically for disaster analysis. It contains 26,988 bi-temporal satellite image pairs showing the same location before and after a disaster, along with 123,000 question-answer pairs covering a wide range of analysis tasks.
 
-- **26,988 satellite image pairs**, where each pair shows the same location before and after a disaster
-- **123,000 question-answer pairs** covering a wide range of disaster analysis tasks
-- **36 real disaster events** across 5 continents and 10 disaster types (floods, earthquakes, wildfires, explosions, tsunamis, volcanoes, tornadoes, hurricanes, landslides, and conflict)
-- **Two sensor types**: optical (standard camera) and SAR (radar, which can see through clouds and bad weather)
+The data spans 36 real disaster events across five continents and ten disaster types, including floods, earthquakes, wildfires, explosions, and tsunamis. It also includes two sensor types: optical cameras for clear weather conditions and SAR radar for cloudy or smoky environments where optical images are unavailable.
 
-What makes DisasterM3 different from anything before it is the combination of scale, diversity, and task complexity. It covers 9 distinct tasks organized around 5 core capabilities a rescue team would actually need:
-
-1. **Recognition**: What type of disaster occurred? What structures are affected?
-2. **Counting**: How many buildings are destroyed? What percentage of roads are flooded?
-3. **Localization**: Draw exact outlines around damaged buildings or flooded roads
-4. **Reasoning**: Describe spatial relationships between damaged objects
-5. **Report Generation**: Write a full disaster description and provide immediate and long-term recovery advice
+Crucially, the dataset is organized around what rescue teams actually need, covering nine distinct tasks built on five core capabilities: recognizing disaster type and affected structures, counting damaged objects, localizing damage through segmentation, reasoning about spatial relationships, and generating full disaster reports with recovery advice.
 
 ---
 
-## Experiments
+## Experiments and Key Findings
 
-The paper tested 14 different VLMs on the DisasterM3 benchmark, including open-source models (LLaVA, Qwen2.5-VL, InternVL3, Kimi-VL), commercial models (GPT-4o, GPT-4.1, Claude-3), and remote sensing specialized models (GeoChat, TeoChat, EarthDial).
+The authors evaluated 14 different VLMs on the DisasterM3 benchmark, including open-source models like LLaVA and Qwen2.5-VL, commercial models like GPT-4o and GPT-4.1, and remote sensing specialized models like GeoChat and TeoChat. The results revealed several important patterns.
 
-The main findings were:
+1. **Even the best models struggle with disaster tasks.** GPT-4.1 achieved only about 42% average accuracy, which is not dramatically better than random guessing on some tasks.
+2. **Larger models generally perform better**, as shown by InternVL3 where the 78B version outperformed smaller versions.
+3. **Models trained on satellite imagery performed worse than general-purpose VLMs**, indicating that disaster understanding requires more than just satellite image knowledge.
+4. **All models performed significantly worse on SAR radar images** compared to optical images, showing that cross-sensor understanding remains an open challenge.
+5. **Fine-tuning on DisasterM3 leads to substantial improvements** across all tasks, with gains up to 10.4% on question answering, 2.15 points on report generation, and 40.8% on segmentation accuracy.
 
-**Even the best models struggle.** GPT-4.1 achieved only ~42% average accuracy on disaster tasks. To put this in perspective, random guessing scores 20% on some tasks, meaning even the best model is not dramatically better than chance on certain tasks.
-
-**Bigger models perform better.** InternVL3 showed a clear trend: the 78B version (39.3%) outperformed the 14B (35.7%) and 8B (31.3%) versions. Larger models handle complex reasoning better.
-
-**Remote sensing models are worse than general models.** Surprisingly, models specifically trained on satellite imagery (like GeoChat at 10.7%) performed worse than general-purpose VLMs. This shows that disaster understanding requires more than just satellite image knowledge; it needs disaster-specific training data.
-
-**SAR images are much harder.** All models performed significantly worse on radar (SAR) images compared to optical ones. Increasing model size didn't help much here either, showing that SAR imagery remains an open challenge.
-
-**Fine-tuning on DisasterM3 works well.** When four models were fine-tuned using the DisasterM3 training set, performance improved significantly across all tasks, with gains of up to +10.4% on QA tasks, +2.15 points on report generation (on a 0 to 5 scale), and +40.8% on segmentation accuracy. Fine-tuning also made models more stable across different ways of phrasing the same question.
-
-**Counting remains tricky.** One fine-tuned model actually got worse at counting damaged buildings, which is a sign of overfitting, where the model memorizes training examples instead of learning the general skill.
-
----
-
-*Summary written based on personal reading of: Wang et al., "DisasterM3: A Remote Sensing Vision-Language Dataset for Disaster Damage Assessment and Response", NeurIPS 2025.*
+These results demonstrate that DisasterM3 not only identifies current model limitations but also provides the data needed to build better disaster-response AI systems.
