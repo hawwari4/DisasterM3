@@ -60,31 +60,38 @@ class DisasterM3Dataset(BaseDataset):
         return self.data
 
     def _parse_sample(self, idx: int, sample: Dict) -> Dict:
-        """
-        Converts a raw DisasterM3 sample into a standardized format.
-        """
-        parsed = {
-            "id": f"{self.subset}_{idx}",
-            "subset": self.subset,
-            "question": sample.get("prompts", ""),
-            "answer": sample.get("answers", sample.get("answer", "")),
-            "options": sample.get("options_str", sample.get("option_str", "")),
-        }
+    """
+    Converts a raw DisasterM3 sample into a standardized format.
+    """
+    parsed = {
+        "id": f"{self.subset}_{idx}",
+        "subset": self.subset,
+        "question": sample.get("prompts", ""),
+        "answer": sample.get("answers", sample.get("answer", "")),
+        "options": sample.get("options_str", sample.get("option_str", "")),
+    }
 
-        # Handle bi-temporal (pre + post) images
-        if self.subset in self.BI_TEMPORAL_SUBSETS:
-            parsed["pre_image_path"] = os.path.join(
-                self.data_root, "images", sample["pre_image_path"]
-            )
-            parsed["post_image_path"] = os.path.join(
-                self.data_root, "images", sample["post_image_path"]
-            )
+    # Handle bi-temporal (pre + post) images
+    if self.subset in self.BI_TEMPORAL_SUBSETS:
+        parsed["pre_image_path"] = os.path.join(
+            self.data_root, "images", sample["pre_image_path"]
+        )
+        parsed["post_image_path"] = os.path.join(
+            self.data_root, "images", sample["post_image_path"]
+        )
 
-        # Handle single image
-        elif self.subset in self.SINGLE_IMAGE_SUBSETS:
-            image_key = "pre_image_path" if "pre_image_path" in sample else "image_path"
-            parsed["image_path"] = os.path.join(
-                self.data_root, "images", sample[image_key].replace("\\", "/")
-            )
+    # Handle single image
+    elif self.subset in self.SINGLE_IMAGE_SUBSETS:
+        image_key = "pre_image_path" if "pre_image_path" in sample else "image_path"
+        parsed["image_path"] = os.path.join(
+            self.data_root, "images", sample[image_key].replace("\\", "/")
+        )
 
-        return parsed
+    # Fallback for unknown subsets like 'report'
+    else:
+        image_key = "pre_image_path" if "pre_image_path" in sample else "image_path"
+        parsed["image_path"] = os.path.join(
+            self.data_root, "images", sample.get(image_key, "")
+        )
+
+    return parsed
