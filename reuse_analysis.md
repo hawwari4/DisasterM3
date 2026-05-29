@@ -1,100 +1,57 @@
-# Reuse Analysis — EarthVQA
+# Reuse Analysis: MONITRS Dataset
 
-## Overview of EarthVQA
+## Introduction
 
-EarthVQA (AAAI 2024) is a remote sensing Visual Question Answering dataset containing:
-- 6,000 satellite images with corresponding semantic segmentation masks
-- 208,593 QA pairs focused on relational reasoning
-- Tasks: object counting, spatial relation reasoning, and comprehensive scene analysis
-- Dataset structure:
+MONITRS (Multimodal Observations of Natural Incidents Through Remote Sensing) presents a novel approach to disaster monitoring by combining temporal satellite imagery with natural language annotations derived from news articles.
 
-```
-EarthVQA/
-├── Train/
-│   ├── images_png/
-│   └── masks_png/
-├── Val/
-│   ├── images_png/
-│   └── masks_png/
-├── Test/
-│   └── images_png/
-├── Train_QA.json
-├── Val_QA.json
-└── Test_QA.json
-```
+This dataset addresses a critical gap in existing resources: the lack of fine-grained temporal understanding for disaster progression. MONITRS also introduces a scalable data curation pipeline that leverages public records and media coverage instead of relying solely on expert annotation.
+
+This analysis identifies one reusable design pattern from MONITRS and explains how it integrates into the proposed modular evaluation framework.
 
 ---
 
-## Identified Reusable Design Pattern: JSON-based QA Loading
+## Reusable Design Pattern: The Temporal Event Expansion Pipeline
 
-### What the pattern is
+The most valuable pattern in MONITRS is its **Temporal Event Expansion** approach for dataset loading. This pattern separates three distinct concerns:
 
-EarthVQA stores all questions and answers in structured JSON files (`Train_QA.json`, `Val_QA.json`, `Test_QA.json`), each paired with an image filename. This is the same pattern used by DisasterM3, where each subset is stored as a `.json` file containing a list of samples with image paths, questions, and answers.
+1. Event-level metadata aggregation
+2. Temporal image sequence handling
+3. Question-answer sample generation
 
-The shared pattern looks like:
+MONITRS does not treat each image as an independent sample.The loading logic then expands this structure by creating one standardized sample per QA pair, while preserving references to the full temporal sequence.
 
-```
-JSON file
-  └── list of samples
-        ├── image_path (or pre/post image paths)
-        ├── question / prompt
-        └── answer / ground truth
-```
+![MONITRS Temporal Event Expansion Pipeline](https://github.com/user-attachments/assets/fd354fb3-5a5d-48a0-9c2a-bda68690a9b8)
 
-### Why this pattern is reusable
+This design achieves two important goals. First, it maintains the temporal context needed for reasoning about disaster progression. Second, it produces a flat list of samples compatible with standard evaluation pipelines that expect one prediction per question.
 
-This JSON-based loading pattern is dataset-agnostic. Both EarthVQA and DisasterM3 follow it, which means the same loading logic can be abstracted into `BaseDataset` and reused across both datasets with minimal changes.
+### Why This Pattern Is Reusable
 
-The only differences between the two are:
-- Key names (`"prompts"` in DisasterM3 vs `"question"` in EarthVQA)
-- Single image (EarthVQA) vs bi-temporal images (DisasterM3)
-- Presence of segmentation masks in EarthVQA (not present in DisasterM3)
+Any disaster dataset involving temporal sequences, such as wildfire tracking, flood monitoring, or post-earthquake recovery, can adopt this same structure. The separation of event metadata from sample generation allows developers to modify one component without affecting the others.
+
+For instance, adding a new sensor type or changing the QA format requires updates only to the parsing logic, not to the core loading interface.
 
 ---
 
-## How It Fits Into the Proposed Framework
+## Integration with the Proposed Framework
 
-The `BaseDataset` class defined in `datasets/base.py` already anticipates this pattern:
+This pattern fits naturally into the modular framework through the `BaseDataset` abstraction defined in `datasets/base.py`. The `MONITRSDataset` class implements the required `load()` method, which returns a list of standardized dictionaries. Each dictionary contains fields such as:
 
-```python
-class BaseDataset(ABC):
-    def load(self) -> List[Dict]:
-        raise NotImplementedError
-```
+- `id`
+- `question`
+- `answer`
+- `image_path` — points to a primary image for model input
+- `image_paths` — stores the full temporal sequence
 
-An `EarthVQADataset` adapter can be implemented by simply:
-1. Reading the JSON file for the chosen split (Train/Val/Test)
-2. Mapping EarthVQA-specific keys to the standardized format
-3. Returning a list of dicts with consistent keys: `id`, `image_path`, `question`, `answer`
+This dual-field approach allows the framework to support both single-image and multi-image models without code changes.
 
-```python
-class EarthVQADataset(BaseDataset):
-    def load(self) -> List[Dict]:
-        split_json = os.path.join(self.data_root, f"{self.subset}_QA.json")
-        with open(split_json, "r") as f:
-            raw_data = json.load(f)
+The pattern also aligns with the configuration-driven execution design. By specifying `dataset: monitrs` in a YAML config file, the framework automatically selects the appropriate adapter. The rest of the pipeline — model runner, evaluator, and experiment tracker — remains unchanged.
 
-        self.data = []
-        for idx, sample in enumerate(raw_data):
-            self.data.append({
-                "id": f"earthvqa_{idx}",
-                "image_path": os.path.join(self.data_root, self.subset, "images_png", sample["image"]),
-                "question": sample["question"],
-                "answer": sample["answer"],
-            })
-        return self.data
-```
-
-This adapter slots directly into the framework without modifying any other component — the model runner and evaluator remain untouched, which is exactly the decoupling goal of the proposed architecture.
+As a result, adding MONITRS support does not require rewriting evaluation logic or modifying model interfaces, which is exactly what the internship project aims to achieve.
 
 ---
 
-## Summary
+## Conclusion
 
-| Aspect | Detail |
-|---|---|
-| Reusable pattern | JSON-based QA loading with image path references |
-| Found in | EarthVQA (`Train_QA.json`, `Val_QA.json`, `Test_QA.json`) |
-| Also used in | DisasterM3 (`bearing_body.json`, `caption.json`, etc.) |
-| How it fits | Directly maps to `BaseDataset.load()` interface |
-| Benefit | New datasets can be added without touching model or evaluator code |
+MONITRS introduces a reusable design pattern that separates event-level aggregation from sample-level expansion. This pattern addresses the unique challenge of temporal disaster monitoring while maintaining compatibility with standard evaluation workflows.
+
+By implementing this pattern in `datasets/monitrs.py`, the proposed framework gains the ability to support temporal datasets without sacrificing modularity. Adopting such patterns enables researchers to benchmark models across diverse disaster scenarios with minimal engineering overhead.
