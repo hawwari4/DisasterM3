@@ -20,7 +20,7 @@ DisasterM3/
 ## 2. Code Organization Analysis
 
 ### What exists
-- `models.py` — defines model configs for QwenVL, InternVL, and Llava
+- `models/__init__.py` — defines model configs for QwenVL, InternVL, and Llava
 - `run_vllm.py` — handles data loading, inference, and saving results
 - Evaluation scripts handle metric computation per task
 
