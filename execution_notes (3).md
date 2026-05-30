@@ -29,12 +29,12 @@ The DisasterM3 environment was successfully set up on Google Colab. The official
 
 ### GPU Detection
 
-![GPU Info](assets/screenshots/colab_gpu_info.png)
+![GPU Info](https://github.com/user-attachments/assets/8d51fcde-8b33-4aad-af7b-480e285b1c87)
 
 ### Model Loading
 
-![Model Loaded](assets/screenshots/model_loading_success.png)
+![Model Loaded](https://github.com/user-attachments/assets/dbbbeaa7-35f8-4df7-b724-8da1d19082f1)
 
 ### Inference Output
 
-![Result](assets/screenshots/inference_result.png)
+![Result](https://github.com/user-attachments/assets/f6b8e543-9171-4e28-ada0-8cd0ab61db86)
