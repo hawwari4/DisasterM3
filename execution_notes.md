@@ -13,7 +13,8 @@
 ## Summary
 
 The DisasterM3 environment was successfully set up on Google Colab. The official repository was cloned and 5 real samples were loaded from the Hugging Face dataset using streaming mode. Proper input messages for Qwen2.5-VL were constructed and the 3B model was successfully loaded in float16 precision. Inference was run on a test sample and the correct answer matching the ground truth was obtained, proving the pipeline logic works end-to-end.
-
+The full code is available at `tests/execution_notes.ipynb`.
+ 
 ---
 
 ## Dependencies Installed
