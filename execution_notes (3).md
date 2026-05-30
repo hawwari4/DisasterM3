@@ -38,3 +38,10 @@ The DisasterM3 environment was successfully set up on Google Colab. The official
 ### Inference Output
 
 ![Result](https://github.com/user-attachments/assets/f6b8e543-9171-4e28-ada0-8cd0ab61db86)
+
+
+## Issues & Limitations
+
+1. Full-scale inference is blocked by severe hardware constraints, as VLMs require 24GB or more of GPU VRAM to process high-resolution satellite images, far exceeding standard cloud free tiers.
+2. The 41GB dataset size and lack of built-in streaming support make local or constrained environment execution impractical without manual workarounds.
+3. The original codebase is tightly coupled to DisasterM3's specific file structure and hardcoded paths, requiring significant refactoring to support modular, configuration-driven evaluation across multiple datasets.
